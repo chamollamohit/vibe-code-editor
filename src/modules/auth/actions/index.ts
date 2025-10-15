@@ -1,12 +1,13 @@
 "use server";
 
 import { auth } from "@/auth";
+
 import { db } from "@/lib/db";
 
 export const getUserById = async (id: string) => {
     try {
         const user = await db.user.findUnique({
-            where: { id: id },
+            where: { id },
             include: {
                 accounts: true,
             },
@@ -18,11 +19,14 @@ export const getUserById = async (id: string) => {
     }
 };
 
-export const geAccountByUserId = async (userId: string) => {
+export const getAccountByUserId = async (userId: string) => {
     try {
         const account = await db.account.findFirst({
-            where: { userId: userId },
+            where: {
+                userId,
+            },
         });
+
         return account;
     } catch (error) {
         console.log(error);

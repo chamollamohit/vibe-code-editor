@@ -1,14 +1,16 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "./lib/db";
+
 import authConfig from "./auth.config";
-import { getUserById } from "./modules/auth/actions";
-export const { handlers, signIn, signOut, auth } = NextAuth({
+import { db } from "./lib/db";
+import { getAccountByUserId, getUserById } from "./modules/auth/actions";
+
+export const { auth, handlers, signIn, signOut } = NextAuth({
     callbacks: {
         /**
          * Handle user creation and account linking after a successful sign-in
          */
-        async signIn({ user, account }) {
+        async signIn({ user, account, profile }) {
             if (!user || !account) return false;
 
             // Check if the user already exists
@@ -33,6 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                                 refreshToken: account.refresh_token,
                                 accessToken: account.access_token,
                                 expiresAt: account.expires_at,
+                                tokenType: account.token_type,
                                 scope: account.scope,
                                 idToken: account.id_token,
                                 sessionState: account.session_state,
@@ -41,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     },
                 });
 
-                if (!newUser) return false; // Return false if user creation fails+
+                if (!newUser) return false; // Return false if user creation fails
             } else {
                 // Link the account if user exists
                 const existingAccount = await db.account.findUnique({
@@ -64,6 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                             refreshToken: account.refresh_token,
                             accessToken: account.access_token,
                             expiresAt: account.expires_at,
+                            tokenType: account.token_type,
                             scope: account.scope,
                             idToken: account.id_token,
                             // @ts-ignore
@@ -72,16 +76,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     });
                 }
             }
+
             return true;
         },
 
-        async jwt({ token }) {
+        async jwt({ token, user, account }) {
             if (!token.sub) return token;
-
             const existingUser = await getUserById(token.sub);
+
             if (!existingUser) return token;
 
-            // Attaching user details to token
+            const exisitingAccount = await getAccountByUserId(existingUser.id);
+
             token.name = existingUser.name;
             token.email = existingUser.email;
             token.role = existingUser.role;
@@ -98,10 +104,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             if (token.sub && session.user) {
                 session.user.role = token.role;
             }
+
             return session;
         },
     },
+
     secret: process.env.AUTH_SECRET,
     adapter: PrismaAdapter(db),
+    session: { strategy: "jwt" },
     ...authConfig,
 });
