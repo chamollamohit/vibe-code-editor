@@ -2,15 +2,21 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import authConfig from "./auth.config";
+import { getUserById } from "./modules/auth/actions";
 export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
+        /**
+         * Handle user creation and account linking after a successful sign-in
+         */
         async signIn({ user, account }) {
             if (!user || !account) return false;
 
+            // Check if the user already exists
             const existingUser = await db.user.findUnique({
                 where: { email: user.email! },
             });
 
+            // If user does not exist, create a new one
             if (!existingUser) {
                 const newUser = await db.user.create({
                     data: {
@@ -35,8 +41,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     },
                 });
 
-                if (!newUser) return false;
+                if (!newUser) return false; // Return false if user creation fails+
             } else {
+                // Link the account if user exists
                 const existingAccount = await db.account.findUnique({
                     where: {
                         provider_providerAccountId: {
@@ -46,6 +53,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     },
                 });
 
+                // If the account does not exist, create it
                 if (!existingAccount) {
                     await db.account.create({
                         data: {
@@ -67,9 +75,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return true;
         },
 
-        async jwt() {},
+        async jwt({ token }) {
+            if (!token.sub) return token;
 
-        async session() {},
+            const existingUser = await getUserById(token.sub);
+            if (!existingUser) return token;
+
+            // Attaching user details to token
+            token.name = existingUser.name;
+            token.email = existingUser.email;
+            token.role = existingUser.role;
+
+            return token;
+        },
+
+        async session({ session, token }) {
+            // Attach the user ID from the token to the session
+            if (token.sub && session.user) {
+                session.user.id = token.sub;
+            }
+
+            if (token.sub && session.user) {
+                session.user.role = token.role;
+            }
+            return session;
+        },
     },
     secret: process.env.AUTH_SECRET,
     adapter: PrismaAdapter(db),

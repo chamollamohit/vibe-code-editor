@@ -13,6 +13,8 @@ const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
     const { nextUrl } = req;
+    // console.log(req.auth);
+
     const isLoggedIn = !!req.auth;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -32,7 +34,7 @@ export default auth((req) => {
         return null;
     }
 
-    if (!isLoggedIn && !publicRoutes) {
+    if (!isLoggedIn && !isPublicRoute) {
         return Response.redirect(new URL("/auth/sign-in", nextUrl));
     }
 });
