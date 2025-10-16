@@ -35,3 +35,25 @@ export interface EditProjectData {
     title: string;
     description: string;
 }
+
+export interface TemplateOption {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    color: string;
+    popularity: number;
+    tags: string[];
+    features: string[];
+    category: "frontend" | "backend" | "fullstack";
+}
+
+export type TemplateSelectionModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+    onSubmit: (data: {
+        title: string;
+        template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+        description?: string;
+    }) => void;
+};
