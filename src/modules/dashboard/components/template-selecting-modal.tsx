@@ -176,12 +176,11 @@ const TemplateSelectionModal = ({
                 description: template?.description,
             });
 
-            onClose = () => {
-                setStep("select");
-                setSelectedTemplate(null);
-                setProjectName("");
-                setCategory("all");
-            };
+            onClose();
+            setStep("select");
+            setSelectedTemplate(null);
+            setProjectName("");
+            setCategory("all");
         }
     };
 
@@ -316,7 +315,7 @@ const TemplateSelectionModal = ({
                                                                 template.icon ||
                                                                 "/placeholder.svg"
                                                             }
-                                                            alt={`{template.name} icon`}
+                                                            alt={`${template.name} icon`}
                                                             width={40}
                                                             height={40}
                                                             className="object-contain"
