@@ -1,8 +1,10 @@
+import { Button } from "@/components/ui/button";
+
 export interface User {
     id: string;
     name: string;
     email: string;
-    image: string;
+    image: string | null;
     role: string;
     createdAt: Date;
     updatedAt: Date;
@@ -11,13 +13,13 @@ export interface User {
 export interface Project {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     template: string;
     createdAt: Date;
     updatedAt: Date;
     userId: string;
     user: User;
-    Starmark: { isMarked: boolean }[];
+    starMark: { isMarked: boolean }[];
 }
 
 export interface ProjectTableProps {
@@ -27,7 +29,7 @@ export interface ProjectTableProps {
         data: { title: string; description: string }
     ) => Promise<void>;
     onDeleteProject?: (id: string) => Promise<void>;
-    onDuplicateProject?: (id: string) => Promise<void>;
+    onDuplicateProject?: (id: string) => Promise<any>;
     onMarkasFavorite?: (id: string) => Promise<void>;
 }
 
@@ -57,3 +59,15 @@ export type TemplateSelectionModalProps = {
         description?: string;
     }) => void;
 };
+
+export interface createPlaygroundProp {
+    title: string;
+    template: "REACT" | "NEXTJS" | "EXPRESS" | "VUE" | "HONO" | "ANGULAR";
+    description?: string;
+}
+
+export interface MarkedToggleButtonProps
+    extends React.ComponentPropsWithoutRef<typeof Button> {
+    markedForRevision: boolean;
+    id: string;
+}

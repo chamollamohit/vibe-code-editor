@@ -426,7 +426,7 @@ const TemplateSelectionModal = ({
                                     disabled={!selectedTemplate}
                                     onClick={handleContinue}
                                 >
-                                    Continue{" "}
+                                    Continue
                                     <ChevronRight size={16} className="ml-1" />
                                 </Button>
                             </div>

@@ -21,12 +21,13 @@ enum UserRole {
 
 model User{
   id String @id @default(cuid()) @map("_id")
-  name String?
+  name String
   email String @unique
   image String?
   accounts Account[]
   role UserRole @default(USER)
   myPlayground Playground[]
+  staredPlayground StarMark[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
@@ -67,19 +68,21 @@ model Playground {
   template Templates @default(REACT)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  // starMark StarMark[]
+  starMark StarMark[]
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade )
 
   // Todo TemplateFiles
 }
 
-// model starMark {
-//   id String @id @map("_id") @default(cuid())
-//   userId String
-//   playgroundId String
-//   isMarked Boolean
-//   createdAt DateTime @default(now())
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   playground Playground @relation(fields: [playgroundId], references: [id], onDelete: Cascade)
-// }
+model StarMark {
+  id String @id @map("_id") @default(cuid())
+  userId String
+  playgroundId String
+  isMarked Boolean
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  playground Playground @relation(fields: [playgroundId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, playgroundId])
+}
