@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { toast } from "sonner";
 
 import { TemplateFile, TemplateFolder } from "../type";
+import { generateFileId } from "../lib/index";
 
 interface OpenFile extends TemplateFile {
     id: string;
@@ -16,10 +17,22 @@ interface FileExplorerState {
     openFiles: OpenFile[];
     activeFileId: string | null;
     editorContent: string;
+
+    //   Setter Functions
+    setPlaygroundId: (id: string) => void;
+    setTemplateData: (data: TemplateFolder | null) => void;
+    setEditorContent: (content: string) => void;
+    setOpenFiles: (files: OpenFile[]) => void;
+    setActiveFileId: (fileId: string | null) => void;
+
+    //   Functions
+    openFile: (file: TemplateFile) => void;
+    closeFile: (fileId: string) => void;
+    closeAllFiles: () => void;
 }
 
 // @ts-ignore
-export const useFileExplorer = create<FileExplorerState>((set, get) => ({
+export const useFileExplorerStore = create<FileExplorerState>((set, get) => ({
     templateData: null,
     playgroundId: "",
     openFiles: [] satisfies OpenFile[],
@@ -57,5 +70,38 @@ export const useFileExplorer = create<FileExplorerState>((set, get) => ({
             activeFileId: fileId,
             editorContent: file.content || "",
         }));
+    },
+
+    closeFile: (fileId) => {
+        const { openFiles, activeFileId } = get();
+        const newFiles = openFiles.filter((f) => f.id !== fileId);
+
+        // If we're closing the active file, switch to another file or clear active
+        let newActiveFileId = activeFileId;
+        let newEditorContent = get().editorContent;
+
+        if (activeFileId === fileId) {
+            if (newFiles.length > 0) {
+                const lastFile = newFiles[newFiles.length - 1];
+                newActiveFileId = lastFile.id;
+                newEditorContent = lastFile.content;
+            } else {
+                newActiveFileId = null;
+                newEditorContent = "";
+            }
+        }
+
+        set({
+            openFiles: newFiles,
+            activeFileId: newActiveFileId,
+            editorContent: newEditorContent,
+        });
+    },
+    closeAllFiles: () => {
+        set({
+            openFiles: [],
+            activeFileId: null,
+            editorContent: "",
+        });
     },
 }));
