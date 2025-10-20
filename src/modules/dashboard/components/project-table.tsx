@@ -53,7 +53,7 @@ import {
     Eye,
 } from "lucide-react";
 import { toast } from "sonner";
-import { MarkedToggleButton } from "./marked-toggle";
+import MarkedToggleButton from "./marked-toggle";
 
 export default function ProjectTable({
     projects,
@@ -80,7 +80,7 @@ export default function ProjectTable({
         setSelectedProject(project);
         setEditData({
             title: project.title,
-            description: project.description,
+            description: project.description!,
         });
         setEditDialogOpen(true);
     };

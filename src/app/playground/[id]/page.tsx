@@ -23,9 +23,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import {
+    ResizableHandle,
+    ResizablePanel,
+    ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import PlaygroundEditor from "@/modules/playground/components/playground-editor";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useWebContainer } from "@/modules/webcontainers/hooks/useWebContainer";
 
 const Playground = () => {
     const { id } = useParams<{ id: string }>();
@@ -44,6 +49,17 @@ const Playground = () => {
         openFile,
         openFiles,
     } = useFileExplorerStore();
+
+    const {
+        serverUrl,
+        destroy,
+        writeFileSync,
+        instance,
+        error: containerError,
+        isLoading: containerLoading,
+    } = useWebContainer({
+        templateData,
+    });
 
     useEffect(() => {
         setPlaygroundId(id);
@@ -236,6 +252,30 @@ const Playground = () => {
                                                 onContentChange={() => {}}
                                             />
                                         </ResizablePanel>
+                                        {isPreviewVisible && (
+                                            <>
+                                                <ResizableHandle />
+                                                <ResizablePanel
+                                                    defaultSize={50}
+                                                >
+                                                    <WebContainerPreview
+                                                        templateData={
+                                                            templateData
+                                                        }
+                                                        instance={instance}
+                                                        writeFileSync={
+                                                            writeFileSync
+                                                        }
+                                                        isLoading={
+                                                            containerLoading
+                                                        }
+                                                        error={containerError}
+                                                        serverUrl={serverUrl!}
+                                                        forceResetup={false}
+                                                    />
+                                                </ResizablePanel>
+                                            </>
+                                        )}
                                     </ResizablePanelGroup>
                                 </div>
                             </div>

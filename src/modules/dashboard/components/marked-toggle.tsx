@@ -9,7 +9,7 @@ import { toggleStarMarked } from "../actions";
 import React from "react";
 import { MarkedToggleButtonProps } from "../types";
 
-export const MarkedToggleButton = forwardRef<
+const MarkedToggleButton = forwardRef<
     HTMLButtonElement,
     MarkedToggleButtonProps
 >(({ markedForRevision, id, onClick, className, children, ...props }, ref) => {
@@ -62,3 +62,5 @@ export const MarkedToggleButton = forwardRef<
         </Button>
     );
 });
+
+export default MarkedToggleButton;
