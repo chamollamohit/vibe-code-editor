@@ -1,3 +1,5 @@
+import { editor } from "monaco-editor";
+
 /**
  * Represents a file in the template structure
  */
@@ -174,3 +176,12 @@ interface FileExplorerState {
 
     updateFileContent: (fileId: string, content: string) => void;
 }
+
+export interface PlaygroundEditorProps {
+    activeFile: TemplateFile | undefined;
+    content: string;
+    onContentChange: (value: string) => void;
+}
+
+export type IStandaloneEditorConstructionOptions =
+    editor.IStandaloneEditorConstructionOptions;
