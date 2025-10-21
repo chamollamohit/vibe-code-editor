@@ -31,6 +31,7 @@ import {
 import PlaygroundEditor from "@/modules/playground/components/playground-editor";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useWebContainer } from "@/modules/webcontainers/hooks/useWebContainer";
+import WebContainerPreview from "@/modules/webcontainers/components/webcontainer-preview";
 
 const Playground = () => {
     const { id } = useParams<{ id: string }>();
@@ -260,7 +261,7 @@ const Playground = () => {
                                                 >
                                                     <WebContainerPreview
                                                         templateData={
-                                                            templateData
+                                                            templateData!
                                                         }
                                                         instance={instance}
                                                         writeFileSync={
