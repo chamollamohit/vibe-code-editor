@@ -36,7 +36,6 @@ const PlaygroundEditor = ({
         if (!model) return;
 
         const language = getEditorLanguage(activeFile.fileExtension || "");
-        console.log(language);
 
         try {
             monacoRef.current.editor.setModelLanguage(model, language);
