@@ -23,11 +23,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                 const newUser = await db.user.create({
                     data: {
                         email: user.email!,
-                        name: user.name,
+                        name: user.name!,
                         image: user.image,
 
                         accounts: {
-                            // @ts-ignore
                             create: {
                                 type: account.type,
                                 provider: account.provider,
@@ -38,7 +37,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                                 tokenType: account.token_type,
                                 scope: account.scope,
                                 idToken: account.id_token,
-                                sessionState: account.session_state,
+                                sessionState: account.session_state
+                                    ? account.session_state.toString()
+                                    : null,
                             },
                         },
                     },
@@ -70,8 +71,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
                             tokenType: account.token_type,
                             scope: account.scope,
                             idToken: account.id_token,
-                            // @ts-ignore
-                            sessionState: account.session_state,
+                            sessionState: account.session_state
+                                ? account.session_state.toString()
+                                : null,
                         },
                     });
                 }

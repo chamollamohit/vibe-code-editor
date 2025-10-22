@@ -47,4 +47,3 @@ export function transformToWebContainerFormat(template: {
 
     return result;
 }
-1;

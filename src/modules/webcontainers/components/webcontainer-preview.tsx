@@ -5,7 +5,8 @@ import { transformToWebContainerFormat } from "../hooks/transformer";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { WebContainerPreviewProps } from "../type";
-import TerminalComponent from "./terminal";
+import TerminalComponent, { TerminalRef } from "./terminal";
+import { Terminal } from "@xterm/xterm";
 
 const WebContainerPreview = ({
     error,
@@ -30,7 +31,7 @@ const WebContainerPreview = ({
     const [isSetupComplete, setIsSetupComplete] = useState(false);
     const [isSetupInProgress, setIsSetupInProgress] = useState(false);
 
-    const terminalRef = useRef<any>(null);
+    const terminalRef = useRef<TerminalRef>(null);
 
     // Reset setup state when forceResetup changes
     useEffect(() => {
@@ -339,7 +340,7 @@ const WebContainerPreview = ({
                     <div className="flex-1 p-4">
                         <TerminalComponent
                             ref={terminalRef}
-                            webContainerInstance={instance}
+                            webContainerInstance={instance!}
                             className="h-full"
                         />
                     </div>
@@ -357,7 +358,7 @@ const WebContainerPreview = ({
                     <div className="h-64 border-t">
                         <TerminalComponent
                             ref={terminalRef}
-                            webContainerInstance={instance}
+                            webContainerInstance={instance!}
                             className="h-full"
                         />
                     </div>

@@ -18,12 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Search, Copy, Trash2, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import { WebContainer, WebContainerProcess } from "@webcontainer/api";
 
 interface TerminalProps {
     webcontainerUrl?: string;
     className?: string;
 
-    webContainerInstance?: any;
+    webContainerInstance?: WebContainer;
 }
 
 // Define the methods that will be exposed through the ref
@@ -48,8 +49,8 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(
         const cursorPosition = useRef<number>(0);
         const commandHistory = useRef<string[]>([]);
         const historyIndex = useRef<number>(-1);
-        const currentProcess = useRef<any>(null);
-        const shellProcess = useRef<any>(null);
+        const currentProcess = useRef<WebContainerProcess>(null);
+        const shellProcess = useRef<WebContainerProcess>(null);
         const { theme } = useTheme();
         const newTheme = theme === "light" ? "light" : "dark";
 
@@ -60,7 +61,7 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(
                 const newTheme = theme === "light" ? "light" : "dark";
                 term.current.options.theme = terminalThemes[newTheme];
             }
-        }, [theme]);
+        }, [newTheme]);
 
         const terminalThemes = {
             dark: {
@@ -585,5 +586,7 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(
         );
     }
 );
+
+TerminalComponent.displayName = "TerminalComponent";
 
 export default TerminalComponent;

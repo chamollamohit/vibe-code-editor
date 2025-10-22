@@ -47,7 +47,6 @@ export const useWebContainer = ({
             if (!instance) {
                 throw new Error("WebContainer instance not available");
             }
-
             try {
                 const pathParts = path.split("/");
                 const folderPath = pathParts.slice(0, -1).join("/");
