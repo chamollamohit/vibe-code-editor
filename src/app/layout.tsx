@@ -37,7 +37,7 @@ export default async function RootLayout({
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="system"
-                        enableSystem
+                        enableSystem={true}
                         disableTransitionOnChange
                     >
                         <div className="flex flex-col min-h-screen">
