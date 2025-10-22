@@ -1,3 +1,5 @@
+import { JsonValue } from "@prisma/client/runtime/library";
+import { WebContainer } from "@webcontainer/api";
 import { editor } from "monaco-editor";
 
 /**
@@ -49,9 +51,10 @@ export interface ScanOptions {
 }
 
 export interface PlaygroundData {
-    id: string;
-    title?: string;
-    [key: string]: any;
+    title: string;
+    templateFiles: {
+        content: JsonValue;
+    }[];
 }
 
 export interface UsePlaygroundReturn {
@@ -139,14 +142,14 @@ interface FileExplorerState {
         newFile: TemplateFile,
         parentPath: string,
         writeFileSync: (filePath: string, content: string) => Promise<void>,
-        instance: any,
+        instance: WebContainer,
         saveTemplateData: (data: TemplateFolder) => Promise<void>
     ) => Promise<void>;
 
     handleAddFolder: (
         newFolder: TemplateFolder,
         parentPath: string,
-        instance: any,
+        instance: WebContainer,
         saveTemplateData: (data: TemplateFolder) => Promise<void>
     ) => Promise<void>;
 

@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect } from "react";
 import Editor, { type Monaco } from "@monaco-editor/react";
-import { TemplateFile } from "../type";
+
 import {
     configureMonaco,
     defaultEditorOptions,
@@ -11,15 +11,19 @@ import {
 
 import { PlaygroundEditorProps } from "../type";
 import { useTheme } from "next-themes";
+import { editor } from "monaco-editor";
 
 const PlaygroundEditor = ({
     activeFile,
     content,
     onContentChange,
 }: PlaygroundEditorProps) => {
-    const editorRef = useRef<any>(null);
+    const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
     const monacoRef = useRef<Monaco | null>(null);
-    const handleEditorMount = (editor: any, monaco: Monaco) => {
+    const handleEditorMount = (
+        editor: editor.IStandaloneCodeEditor,
+        monaco: Monaco
+    ) => {
         editorRef.current = editor;
         monacoRef.current = monaco;
         console.log("Editor instance mounted:", !!editorRef.current);

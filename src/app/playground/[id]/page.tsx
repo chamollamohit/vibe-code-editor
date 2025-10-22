@@ -44,11 +44,13 @@ import LoadingStep from "@/modules/playground/components/loader";
 import { findFilePath } from "@/modules/playground/lib";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
-
 const WebContainerPreview = dynamic(
     () => import("@/modules/webcontainers/components/webcontainer-preview"),
     { ssr: false }
 );
+
+type FileTreeItem = TemplateFolder | TemplateFile;
+
 const Playground = () => {
     const { id } = useParams<{ id: string }>();
     const [isPreviewVisible, setIsPreviewVisible] = useState(false);
@@ -104,7 +106,7 @@ const Playground = () => {
                 newFile,
                 parentPath,
                 writeFileSync!,
-                instance,
+                instance!,
                 saveTemplateData
             );
         },
@@ -116,7 +118,7 @@ const Playground = () => {
             return handleAddFolder(
                 newFolder,
                 parentPath,
-                instance,
+                instance!,
                 saveTemplateData
             );
         },
@@ -200,9 +202,9 @@ const Playground = () => {
                     JSON.stringify(latestTemplateData)
                 );
 
-                // @ts-ignore
-                const updateFileContent = (items: any[]) =>
-                    // @ts-ignore
+                const updateFileContent = (
+                    items: FileTreeItem[]
+                ): FileTreeItem[] =>
                     items.map((item) => {
                         if ("folderName" in item) {
                             return {
@@ -229,8 +231,6 @@ const Playground = () => {
                         fileToSave.content
                     );
                     if (instance && instance.fs) {
-                        // console.log(filePath);
-                        // console.log(fileToSave.content);
                         await instance.fs.writeFile(
                             filePath,
                             fileToSave.content

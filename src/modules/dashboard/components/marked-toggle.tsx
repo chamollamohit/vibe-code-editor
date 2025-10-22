@@ -63,4 +63,6 @@ const MarkedToggleButton = forwardRef<
     );
 });
 
+MarkedToggleButton.displayName = "MarkedToggleButton";
+
 export default MarkedToggleButton;

@@ -17,7 +17,7 @@ export const getAllPlaygroundForUser = async () => {
                 user: true,
                 starMark: {
                     where: {
-                        userId: user?.id!,
+                        userId: user?.id,
                     },
                     select: {
                         isMarked: true,
@@ -35,13 +35,19 @@ export const createPlayground = async (data: createPlaygroundProp) => {
     const user = await currentUser();
     const { template, title, description } = data;
 
+    if (!user || !user.id) {
+        console.log("User not found, cannot create Playground");
+
+        throw new Error("User not authorized");
+    }
+
     try {
         const playground = await db.playground.create({
             data: {
                 title: title,
                 description: description,
                 template: template,
-                userId: user?.id!,
+                userId: user?.id,
             },
         });
 

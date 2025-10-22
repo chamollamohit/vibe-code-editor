@@ -20,8 +20,8 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
             setIsLoading(true);
             setError(null);
             const data = await getAllPlaygroundById(id);
-            // @ts-ignore
-            setPlaygroundData(data);
+
+            setPlaygroundData(data!);
             const rawContent = data?.templateFiles?.[0]?.content;
 
             if (typeof rawContent === "string") {

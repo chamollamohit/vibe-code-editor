@@ -28,6 +28,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { TemplateOption, TemplateSelectionModalProps } from "../types";
 
+type Category = "all" | "frontend" | "backend" | "fullstack";
+
 const templates: TemplateOption[] = [
     {
         id: "react",
@@ -248,7 +250,7 @@ const TemplateSelectionModal = ({
                                     defaultValue="all"
                                     className="w-full sm:w-auto"
                                     onValueChange={(value) =>
-                                        setCategory(value as any)
+                                        setCategory(value as Category)
                                     }
                                 >
                                     <TabsList className="grid grid-cols-4 w-full sm:w-[400px]">

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { toast } from "sonner";
-
+import { WebContainer } from "@webcontainer/api";
 import { TemplateFile, TemplateFolder } from "../type";
 import { generateFileId } from "../lib/index";
 
@@ -35,14 +35,14 @@ interface FileExplorerState {
         newFile: TemplateFile,
         parentPath: string,
         writeFileSync: (filePath: string, content: string) => Promise<void>,
-        instance: any,
+        instance: WebContainer,
         saveTemplateData: (data: TemplateFolder) => Promise<void>
     ) => Promise<void>;
 
     handleAddFolder: (
         newFolder: TemplateFolder,
         parentPath: string,
-        instance: any,
+        instance: WebContainer,
         saveTemplateData: (data: TemplateFolder) => Promise<void>
     ) => Promise<void>;
 

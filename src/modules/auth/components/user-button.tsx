@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import placeholder from "../../../../public/placeholder.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { LogOut, User } from "lucide-react";
@@ -22,7 +22,11 @@ const UserButton = () => {
             <DropdownMenuTrigger>
                 <div className={cn("relative rounded-full")}>
                     <Avatar>
-                        <AvatarImage src={user?.image!} alt={user?.name!} />
+                        <AvatarImage
+                            src={user?.image ?? "placeholder"}
+                            alt={user?.name ?? "Default User"}
+                        />
+
                         <AvatarFallback className="bg-red-500">
                             <User className="text-white" />
                         </AvatarFallback>

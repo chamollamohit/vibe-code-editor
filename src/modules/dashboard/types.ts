@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { $Enums } from "@prisma/client";
 
 export interface User {
     id: string;
@@ -29,7 +30,18 @@ export interface ProjectTableProps {
         data: { title: string; description: string }
     ) => Promise<void>;
     onDeleteProject?: (id: string) => Promise<void>;
-    onDuplicateProject?: (id: string) => Promise<any>;
+    onDuplicateProject?: (id: string) => Promise<
+        | {
+              id: string;
+              createdAt: Date;
+              updatedAt: Date;
+              userId: string;
+              title: string;
+              description: string | null;
+              template: $Enums.Templates;
+          }
+        | undefined
+    >;
     onMarkasFavorite?: (id: string) => Promise<void>;
 }
 

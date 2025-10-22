@@ -1,9 +1,10 @@
+import Image from "next/image";
 import React from "react";
 
 const EmptyState = () => {
     return (
         <div className="flex flex-col items-center justify-center py-16">
-            <img
+            <Image
                 src="/empty-state.svg"
                 alt="No projects"
                 className="w-48 h-48 mb-4"
