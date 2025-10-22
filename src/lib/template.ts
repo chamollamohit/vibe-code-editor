@@ -1,5 +1,5 @@
 export const templatePaths = {
-    REACT: "/vibecode-starters/react-ts",
+    REACT: "/vibecode-starters/react",
     NEXTJS: "/vibecode-starters/nextjs",
     EXPRESS: "/vibecode-starters/express-simple",
     VUE: "/vibecode-starters/vue",
