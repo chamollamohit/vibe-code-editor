@@ -50,20 +50,19 @@ export function Header() {
                                     {/* Desktop Navigation Links */}
                                     <div className="hidden sm:flex items-center gap-4">
                                         <Link
-                                            href="/docs/components/background-paths"
+                                            href="/dashboard"
                                             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                                         >
-                                            Docs
+                                            Dashboard
                                         </Link>
-                                        {/* <Link
-                                            href="/pricing"
+                                        <Link
+                                            href=""
                                             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
                                         >
                                             Pricing
-                                        </Link> */}
+                                        </Link>
                                         <Link
-                                            href="https://codesnippetui.pro/templates?utm_source=codesnippetui.com&utm_medium=header"
-                                            target="_blank"
+                                            href=""
                                             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors flex items-center gap-2"
                                         >
                                             API
@@ -79,7 +78,6 @@ export function Header() {
                                     <span className="text-zinc-300 dark:text-zinc-700">
                                         |
                                     </span>
-                                    {/* <HeaderPro /> */}
                                     <ThemeToggle />
                                     <UserButton />
                                 </div>
