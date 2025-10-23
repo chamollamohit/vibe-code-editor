@@ -6,6 +6,8 @@ const EmptyState = () => {
         <div className="flex flex-col items-center justify-center py-16">
             <Image
                 src="/empty-state.svg"
+                width={50}
+                height={50}
                 alt="No projects"
                 className="w-48 h-48 mb-4"
             />

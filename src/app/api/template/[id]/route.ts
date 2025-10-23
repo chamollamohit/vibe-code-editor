@@ -48,6 +48,7 @@ export async function GET(
 
     try {
         const inputPath = path.join(process.cwd(), templatePath);
+        console.log(inputPath);
 
         const result = await getTemplateStructureAsJson(inputPath);
 

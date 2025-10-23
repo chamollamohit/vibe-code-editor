@@ -184,6 +184,12 @@ export interface PlaygroundEditorProps {
     activeFile: TemplateFile | undefined;
     content: string;
     onContentChange: (value: string) => void;
+    suggestion: string | null;
+    suggestionLoading: boolean;
+    suggestionPosition: { line: number; column: number } | null;
+    onAcceptSuggestion: (editor: any, monaco: any) => void;
+    onRejectSuggestion: (editor: any) => void;
+    onTriggerSuggestion: (type: string, editor: any) => void;
 }
 
 export type IStandaloneEditorConstructionOptions =

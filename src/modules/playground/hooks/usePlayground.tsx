@@ -23,7 +23,7 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
 
             setPlaygroundData(data!);
             const rawContent = data?.templateFiles?.[0]?.content;
-
+            // load template from Database if saved there
             if (typeof rawContent === "string") {
                 const parsedContent = JSON.parse(rawContent);
                 setTemplateData(parsedContent);
@@ -94,3 +94,95 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
         saveTemplateData,
     };
 };
+
+// ("use client");
+
+// import { useSession } from "next-auth/react";
+// import { useState, useEffect } from "react";
+
+// // Define a type for the repo object
+// interface Repo {
+//     name: string;
+//     owner: string;
+// }
+
+// // Function to fetch the user's repos
+// async function fetchUserRepos(accessToken: string): Promise<Repo[]> {
+//     const response = await fetch(
+//         "https://api.github.com/user/repos?type=owner",
+//         {
+//             headers: {
+//                 // Use the user's token for authorization
+//                 Authorization: `token ${accessToken}`,
+//                 Accept: "application/vnd.github.v3+json",
+//             },
+//         }
+//     );
+
+//     if (!response.ok) {
+//         throw new Error("Failed to fetch repositories");
+//     }
+
+//     const data = await response.json();
+//     return data.map((repo: any) => ({
+//         name: repo.name,
+//         owner: repo.owner.login,
+//     }));
+// }
+
+// // Your React Component
+// export function RepoLoader() {
+//     const { data: session, status } = useSession();
+//     const [repos, setRepos] = useState<Repo[]>([]);
+//     const [isLoading, setIsLoading] = useState(false);
+//     const [error, setError] = useState<string | null>(null);
+
+//     const handleLoadRepos = async () => {
+//         // Make sure we have a session and the access token
+//         if (session?.user?.accessToken) {
+//             setIsLoading(true);
+//             setError(null);
+//             try {
+//                 const userRepos = await fetchUserRepos(
+//                     session.user.accessToken
+//                 );
+//                 setRepos(userRepos);
+//             } catch (err) {
+//                 setError(
+//                     err instanceof Error
+//                         ? err.message
+//                         : "An unknown error occurred"
+//                 );
+//             } finally {
+//                 setIsLoading(false);
+//             }
+//         }
+//     };
+
+//     if (status === "loading") {
+//         return <div>Loading session...</div>;
+//     }
+
+//     if (status === "unauthenticated") {
+//         return <div>Please sign in to load your repos.</div>;
+//     }
+
+//     return (
+//         <div>
+//             <button onClick={handleLoadRepos} disabled={isLoading}>
+//                 {isLoading ? "Loading..." : "Load My Repositories"}
+//             </button>
+
+//             {error && <div style={{ color: "red" }}>{error}</div>}
+
+//             {/* Render the list of repos in a dropdown */}
+//             <select>
+//                 {repos.map((repo) => (
+//                     <option key={repo.name} value={repo.name}>
+//                         {repo.owner} / {repo.name}
+//                     </option>
+//                 ))}
+//             </select>
+//         </div>
+//     );
+// }
