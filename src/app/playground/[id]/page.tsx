@@ -44,6 +44,7 @@ import LoadingStep from "@/modules/playground/components/loader";
 import { findFilePath } from "@/modules/playground/lib";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
+import ToggleAI from "@/modules/playground/components/toggle-ai";
 const WebContainerPreview = dynamic(
     () => import("@/modules/webcontainers/components/webcontainer-preview"),
     { ssr: false }
@@ -439,9 +440,7 @@ const Playground = () => {
                                         Save All (Ctrl+Shift+S)
                                     </TooltipContent>
                                 </Tooltip>
-                                <Button variant={"default"} size={"icon"}>
-                                    <Bot className="size-4" />
-                                </Button>
+                                <ToggleAI />
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button size="sm" variant="outline">
