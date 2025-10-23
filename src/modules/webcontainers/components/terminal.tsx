@@ -51,14 +51,13 @@ const TerminalComponent = forwardRef<TerminalRef, TerminalProps>(
         const historyIndex = useRef<number>(-1);
         const currentProcess = useRef<WebContainerProcess>(null);
         const shellProcess = useRef<WebContainerProcess>(null);
-        const { theme } = useTheme();
-        const newTheme = theme === "light" ? "light" : "dark";
+        const { resolvedTheme } = useTheme();
+        const newTheme = resolvedTheme === "light" ? "light" : "dark";
 
         // This effect watches for theme changes and updates the terminal
         useEffect(() => {
             if (term.current) {
                 // Only run if the terminal is already initialized
-                const newTheme = theme === "light" ? "light" : "dark";
                 term.current.options.theme = terminalThemes[newTheme];
             }
         }, [newTheme]);
