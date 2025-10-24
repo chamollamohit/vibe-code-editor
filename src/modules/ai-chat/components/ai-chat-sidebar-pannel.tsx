@@ -588,7 +588,6 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                             inline,
                                                         }: ComponentPropsWithoutRef<"code"> & {
                                                             inline?: boolean;
-                                                            node?: any;
                                                         }) => {
                                                             if (inline) {
                                                                 return (
