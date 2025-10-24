@@ -375,7 +375,15 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                         {/* Enhanced Controls */}
                         <Tabs
                             value={chatMode}
-                            onValueChange={(value) => setChatMode(value as any)}
+                            onValueChange={(value) =>
+                                setChatMode(
+                                    value as
+                                        | "chat"
+                                        | "review"
+                                        | "fix"
+                                        | "optimize"
+                                )
+                            }
                             className="px-6"
                         >
                             <div className="flex items-center justify-between mb-4">
@@ -703,7 +711,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             e.key === "Enter" &&
                                             (e.metaKey || e.ctrlKey)
                                         ) {
-                                            handleSendMessage(e as any);
+                                            handleSendMessage(e);
                                         }
                                     }}
                                     disabled={isLoading}
