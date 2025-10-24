@@ -296,14 +296,15 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                 <div
                     className={cn(
                         "fixed right-0 top-0 h-full w-full max-w-6xl bg-zinc-950 border-l border-zinc-800 z-50 flex flex-col transition-transform duration-300 ease-out shadow-2xl",
+                        "bg-white dark:bg-zinc-950 border-l border-zinc-200 dark:border-zinc-800",
                         isOpen ? "translate-x-0" : "translate-x-full"
                     )}
                 >
                     {/* Enhanced Header */}
-                    <div className="shrink-0 border-b border-zinc-800 bg-zinc-900/80 backdrop-blur-sm">
+                    <div className="shrink-0 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur-sm">
                         <div className="flex items-center justify-between p-6">
                             <div className="flex items-center gap-3">
-                                <div className="relative w-10 h-10 border rounded-full flex flex-col justify-center items-center">
+                                <div className="relative w-10 h-10 border border-zinc-200 dark:border-zinc-700 rounded-full flex flex-col justify-center items-center">
                                     <Image
                                         src={"/logo.svg"}
                                         alt="Logo"
@@ -312,10 +313,10 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                     />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg font-semibold text-zinc-100">
+                                    <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                                         Enhanced AI Assistant
                                     </h2>
-                                    <p className="text-sm text-zinc-400">
+                                    <p className="ttext-sm text-zinc-500 dark:text-zinc-40">
                                         {messages.length} messages
                                     </p>
                                 </div>
@@ -326,25 +327,28 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
+                                            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                                         >
                                             <Settings className="h-4 w-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DropdownMenuCheckboxItem
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="bg-white dark:bg-zinc-900"
+                                    >
+                                        {/* <DropdownMenuCheckboxItem
                                             checked={autoSave}
                                             onCheckedChange={setAutoSave}
                                         >
                                             Auto-save conversations
-                                        </DropdownMenuCheckboxItem>
-                                        <DropdownMenuCheckboxItem
+                                        </DropdownMenuCheckboxItem> */}
+                                        {/* <DropdownMenuCheckboxItem
                                             checked={streamResponse}
                                             onCheckedChange={setStreamResponse}
                                         >
                                             Stream responses
-                                        </DropdownMenuCheckboxItem>
-                                        <DropdownMenuSeparator />
+                                        </DropdownMenuCheckboxItem> */}
+                                        {/* <DropdownMenuSeparator /> */}
                                         <DropdownMenuItem onClick={exportChat}>
                                             <Download className="h-4 w-4 mr-2" />
                                             Export Chat
@@ -361,7 +365,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                     variant="ghost"
                                     size="sm"
                                     onClick={onClose}
-                                    className="h-8 w-8 p-0 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
+                                    className="h-8 w-8 p-0 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                                 >
                                     <X className="h-4 w-4" />
                                 </Button>
@@ -407,7 +411,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                 </TabsList>
 
                                 <div className="flex items-center gap-2">
-                                    <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-400">
+                                    <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
                                         <span className="text-zinc-500">
                                             Model:
                                         </span>
@@ -416,9 +420,9 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             onChange={(e) =>
                                                 setModel(e.target.value)
                                             }
-                                            className="bg-zinc-900/60 border border-zinc-800 rounded px-2 py-1 text-zinc-200 focus:outline-none"
+                                            className="bg-white dark:bg-zinc-900/60 border border-zinc-300 dark:border-zinc-800 rounded px-2 py-1 text-zinc-900 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                         >
-                                            <option value="gpt-6">
+                                            <option value="Gemini-2.5-Flash">
                                                 Gemini-2.5-Flash
                                             </option>
                                         </select>
@@ -431,7 +435,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             onChange={(e) =>
                                                 setSearchTerm(e.target.value)
                                             }
-                                            className="pl-7 h-8 w-40 bg-zinc-800/50 border-zinc-700/50"
+                                            className="pl-7 h-8 w-40 bg-zinc-100 dark:bg-zinc-800/50 border-zinc-300 dark:border-zinc-700/50"
                                         />
                                     </div>
 
@@ -491,17 +495,17 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                     </div>
 
                     {/* Messages Container */}
-                    <div className="flex-1 overflow-y-auto bg-zinc-950">
+                    <div className="flex-1 overflow-y-auto bg-white dark:bg-zinc-950">
                         <div className="p-6 space-y-6">
                             {filteredMessages.length === 0 && !isLoading && (
                                 <div className="text-center text-zinc-500 py-16">
-                                    <div className="relative w-16 h-16 border rounded-full flex flex-col justify-center items-center mx-auto mb-4">
-                                        <Brain className="h-8 w-8 text-zinc-400" />
+                                    <div className="relative w-16 h-16 border border-zinc-200 dark:border-zinc-700 rounded-full flex flex-col justify-center items-center mx-auto mb-4">
+                                        <Brain className="h-8 w-8 text-zinc-500 dark:text-zinc-400" />
                                     </div>
-                                    <h3 className="text-xl font-semibold mb-3 text-zinc-300">
+                                    <h3 className="text-xl font-semibold mb-3 text-zinc-800 dark:text-zinc-300">
                                         Enhanced AI Assistant
                                     </h3>
-                                    <p className="text-zinc-400 max-w-md mx-auto leading-relaxed mb-6">
+                                    <p className="text-zinc-600 dark:text-zinc-400 max-w-md mx-auto leading-relaxed mb-6">
                                         Advanced AI coding assistant with
                                         comprehensive analysis capabilities.
                                     </p>
@@ -519,7 +523,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                 onClick={() =>
                                                     setInput(suggestion)
                                                 }
-                                                className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm text-zinc-300 transition-colors text-left"
+                                                className="px-3 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-sm text-zinc-700 dark:text-zinc-300 transition-colors text-left"
                                             >
                                                 {suggestion}
                                             </button>
@@ -539,8 +543,8 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                         )}
                                     >
                                         {msg.role === "assistant" && (
-                                            <div className="relative w-10 h-10 border rounded-full flex flex-col justify-center items-center">
-                                                <Brain className="h-5 w-5 text-zinc-400" />
+                                            <div className="relative w-10 h-10 border border-zinc-200 dark:border-zinc-700 rounded-full flex flex-col justify-center items-center">
+                                                <Brain className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
                                             </div>
                                         )}
 
@@ -548,8 +552,8 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             className={cn(
                                                 "max-w-[85%] rounded-xl shadow-sm",
                                                 msg.role === "user"
-                                                    ? "bg-zinc-900/70 text-white p-4 rounded-br-md"
-                                                    : "bg-zinc-900/80 backdrop-blur-sm text-zinc-100 p-5 rounded-bl-md border border-zinc-800/50"
+                                                    ? "bg-blue-50 text-zinc-900 p-4 rounded-br-md dark:bg-zinc-900/70 dark:text-white"
+                                                    : "bg-zinc-100 text-zinc-900 p-5 rounded-bl-md border border-zinc-200 dark:bg-zinc-900/80 dark:backdrop-blur-sm dark:text-zinc-100 dark:border-zinc-800/50"
                                             )}
                                         >
                                             {msg.role === "assistant" && (
@@ -560,7 +564,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                 />
                                             )}
 
-                                            <div className="prose prose-invert prose-sm max-w-none">
+                                            <div className="prose prose-sm dark:prose-invert max-w-none">
                                                 <ReactMarkdown
                                                     remarkPlugins={[
                                                         remarkGfm,
@@ -577,7 +581,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                         }) => {
                                                             if (inline) {
                                                                 return (
-                                                                    <code className="bg-zinc-800 px-1 py-0.5 rounded text-sm">
+                                                                    <code className="bg-zinc-400 dark:bg-zinc-800 px-1 py-0.5 rounded text-sm">
                                                                         {
                                                                             children
                                                                         }
@@ -585,8 +589,8 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                                 );
                                                             }
                                                             return (
-                                                                <div className="bg-zinc-800 rounded-lg p-4 my-4">
-                                                                    <pre className="text-sm text-zinc-100 overflow-x-auto">
+                                                                <div className="bg-zinc-400 dark:bg-zinc-800 rounded-lg p-4 my-4">
+                                                                    <pre className="text-sm text-zinc-900 dark:text-zinc-100 overflow-x-auto">
                                                                         <code
                                                                             className={
                                                                                 className
@@ -607,7 +611,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                             </div>
 
                                             {/* Message actions */}
-                                            <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-700/30">
+                                            <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-700/30">
                                                 <div className="text-xs text-zinc-500">
                                                     {msg.timestamp.toLocaleTimeString()}
                                                 </div>
@@ -620,7 +624,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                                 msg.content
                                                             )
                                                         }
-                                                        className="h-6 w-6 p-0 text-zinc-400 hover:text-zinc-200"
+                                                        className="h-6 w-6 p-0 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
                                                     >
                                                         <Copy className="h-3 w-3" />
                                                     </Button>
@@ -632,7 +636,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                                 msg.content
                                                             )
                                                         }
-                                                        className="h-6 w-6 p-0 text-zinc-400 hover:text-zinc-200"
+                                                        className="h-6 w-6 p-0 text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
                                                     >
                                                         <RefreshCw className="h-3 w-3" />
                                                     </Button>
@@ -641,8 +645,8 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                         </div>
 
                                         {msg.role === "user" && (
-                                            <Avatar className="h-9 w-9 border border-zinc-700 bg-zinc-800 shrink-0">
-                                                <AvatarFallback className="bg-zinc-700 text-zinc-300">
+                                            <Avatar className="h-9 w-9 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 shrink-0">
+                                                <AvatarFallback className="bg-zinc-300 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300">
                                                     <User className="h-5 w-5" />
                                                 </AvatarFallback>
                                             </Avatar>
@@ -653,12 +657,12 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
 
                             {isLoading && (
                                 <div className="flex items-start gap-4 justify-start">
-                                    <div className="relative w-10 h-10 border rounded-full flex flex-col justify-center items-center">
-                                        <Brain className="h-5 w-5 text-zinc-400" />
+                                    <div className="relative w-10 h-10 border border-zinc-200 dark:border-zinc-700 rounded-full flex flex-col justify-center items-center">
+                                        <Brain className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
                                     </div>
-                                    <div className="bg-zinc-900/80 backdrop-blur-sm border border-zinc-800/50 p-5 rounded-xl rounded-bl-md flex items-center gap-3">
-                                        <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
-                                        <span className="text-sm text-zinc-300">
+                                    <div className="bg-zinc-100 dark:bg-zinc-900/80 dark:backdrop-blur-sm border border-zinc-200 dark:border-zinc-800/50 p-5 rounded-xl rounded-bl-md flex items-center gap-3">
+                                        <Loader2 className="h-4 w-4 animate-spin text-blue-500 dark:text-blue-400" />
+                                        <span className="text-sm text-zinc-700 dark:text-zinc-300">
                                             {chatMode === "review"
                                                 ? "Analyzing code structure and patterns..."
                                                 : chatMode === "fix"
@@ -678,7 +682,7 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                     {/* Enhanced Input Form */}
                     <form
                         onSubmit={handleSendMessage}
-                        className="shrink-0 p-4 border-t border-zinc-800 bg-zinc-900/80 backdrop-blur-sm"
+                        className="shrink-0 p-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur-sm"
                     >
                         <div className="flex items-end gap-3">
                             <div className="flex-1 relative">
@@ -703,11 +707,11 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                         }
                                     }}
                                     disabled={isLoading}
-                                    className="min-h-[44px] max-h-32 bg-zinc-800/50 border-zinc-700/50 text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:ring-blue-500/20 resize-none pr-20"
+                                    className="min-h-[44px] max-h-32 bg-white dark:bg-zinc-800/50 border-zinc-300 dark:border-zinc-700/50 text-zinc-900 dark:text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:ring-blue-500/20 resize-none pr-20"
                                     rows={1}
                                 />
                                 <div className="absolute right-3 bottom-3 flex items-center gap-2">
-                                    <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-xs text-zinc-500 bg-zinc-800 border border-zinc-700 rounded">
+                                    <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-xs text-zinc-500 bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded">
                                         ⌘↵
                                     </kbd>
                                 </div>
