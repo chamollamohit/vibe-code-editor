@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ComponentPropsWithoutRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -586,6 +586,9 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                             children,
                                                             className,
                                                             inline,
+                                                        }: ComponentPropsWithoutRef<"code"> & {
+                                                            inline?: boolean;
+                                                            node?: any;
                                                         }) => {
                                                             if (inline) {
                                                                 return (
