@@ -13,6 +13,8 @@ export const getAllPlaygroundById = async (id: string) => {
             },
             select: {
                 title: true,
+                source: true,
+                repoOwner: true,
                 templateFiles: {
                     select: {
                         content: true,

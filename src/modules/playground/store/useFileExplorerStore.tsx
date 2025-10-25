@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { WebContainer } from "@webcontainer/api";
 import { TemplateFile, TemplateFolder } from "../type";
 import { generateFileId } from "../lib/index";
+import { TemplateItem } from "@/modules/webcontainers/type";
 
 interface OpenFile extends TemplateFile {
     id: string;
@@ -505,4 +506,57 @@ export const useFileExplorerStore = create<FileExplorerState>((set, get) => ({
                 fileId === state.activeFileId ? content : state.editorContent,
         }));
     },
+
+    setFetchedFileContent: (fullPath: string, content: string) =>
+        set((state) => {
+            // --- 1. Update the main templateData tree ---
+            // This is a recursive function to find the file in the nested tree
+            const findAndUpdate = (items: TemplateItem[]): TemplateItem[] => {
+                return items.map((item) => {
+                    // Base case: Found the file
+                    if (item.type === "file" && item.fullPath === fullPath) {
+                        return {
+                            ...item,
+                            content: content,
+                        };
+                    }
+
+                    // Recursive step: Search inside folders
+                    if (item.type === "folder") {
+                        return {
+                            ...item,
+                            items: findAndUpdate(item.items),
+                        };
+                    }
+
+                    // No match, return item as is
+                    return item;
+                });
+            };
+
+            // Create the new, updated templateData object
+            const newTemplateData = {
+                ...state.templateData!,
+                items: findAndUpdate(state.templateData!.items),
+            };
+
+            // --- 2. Update the openFiles array ---
+            // This updates the content in the editor tab
+            const newOpenFiles = state.openFiles.map((file) =>
+                file.fullPath === fullPath // Find the matching open file
+                    ? {
+                          ...file,
+                          content: content, // Set the new content
+                          originalContent: content, // Mark this as the new "saved" state
+                          hasUnsavedChanges: false, // Mark as "not changed"
+                      }
+                    : file
+            );
+
+            // --- 3. Return the new state ---
+            return {
+                openFiles: newOpenFiles,
+                templateData: newTemplateData as TemplateFolder,
+            };
+        }),
 }));

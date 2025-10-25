@@ -23,15 +23,26 @@ export const usePlayground = (id: string): UsePlaygroundReturn => {
 
             setPlaygroundData(data!);
             const rawContent = data?.templateFiles?.[0]?.content;
+            if (rawContent) {
+                let parsedContent: TemplateFolder | null = null;
 
-            if (typeof rawContent === "string") {
-                const parsedContent = JSON.parse(rawContent);
-                setTemplateData(parsedContent);
-                toast.success("Playground loaded Successfull !!");
-                return;
+                if (typeof rawContent === "string") {
+                    // Case 1: Content is a JSON string, parse it
+                    parsedContent = JSON.parse(rawContent);
+                } else if (typeof rawContent === "object") {
+                    // Case 2: Content is already a JSON object (from Prisma)
+                    parsedContent = rawContent as unknown as TemplateFolder;
+                }
+
+                // If we successfully got the content, set it and stop
+                if (parsedContent) {
+                    setTemplateData(parsedContent);
+                    toast.success("Playground loaded successfully!");
+                    return;
+                }
             }
 
-            // load template from api if not saved in content
+            // load template from api if not saved in Template
 
             const res = await fetch(`/api/template/${id}`);
 
