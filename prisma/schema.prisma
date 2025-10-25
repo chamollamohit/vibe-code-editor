@@ -60,6 +60,12 @@ enum Templates {
   VUE
   HONO
   ANGULAR
+  GITHUB
+}
+
+enum PlaygroundSource {
+  TEMPLATE
+  GITHUB
 }
 
 model Playground {
@@ -73,6 +79,8 @@ model Playground {
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade )
   templateFiles TemplateFiles[]
+  source PlaygroundSource @default(TEMPLATE)
+  repoOwner String?
 }
 
 model StarMark {

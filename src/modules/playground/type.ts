@@ -9,6 +9,7 @@ export interface TemplateFile {
     filename: string;
     fileExtension: string;
     content: string;
+    fullPath?: string;
 }
 
 /**
@@ -55,6 +56,8 @@ export interface PlaygroundData {
     templateFiles: {
         content: JsonValue;
     }[];
+    source?: string;
+    repoOwner: string | null;
 }
 
 export interface UsePlaygroundReturn {

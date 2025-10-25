@@ -45,6 +45,9 @@ import { findFilePath } from "@/modules/playground/lib";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import ToggleAI from "@/modules/playground/components/toggle-ai";
+import { useSession } from "next-auth/react";
+import { fetchFileContent } from "@/modules/github/actions/index";
+import UserButton from "@/modules/auth/components/user-button";
 const WebContainerPreview = dynamic(
     () => import("@/modules/webcontainers/components/webcontainer-preview"),
     { ssr: false }
@@ -54,6 +57,7 @@ type FileTreeItem = TemplateFolder | TemplateFile;
 
 const Playground = () => {
     const { id } = useParams<{ id: string }>();
+    const { data: session } = useSession();
     const [isPreviewVisible, setIsPreviewVisible] = useState(false);
     const { playgroundData, templateData, isLoading, error, saveTemplateData } =
         usePlayground(id);
@@ -75,6 +79,7 @@ const Playground = () => {
         handleRenameFile,
         handleRenameFolder,
         updateFileContent,
+        setFetchedFileContent,
     } = useFileExplorerStore();
 
     const {
@@ -175,6 +180,52 @@ const Playground = () => {
 
     const handleFileSelect = (file: TemplateFile) => {
         openFile(file);
+
+        const needsFetching =
+            playgroundData?.source === "GITHUB" &&
+            file.content == "" && // Check if content is empty
+            session?.accessToken &&
+            playgroundData.repoOwner;
+
+        if (needsFetching) {
+            const { repoOwner, title: repoName } = playgroundData;
+            const { accessToken } = session;
+
+            // Use a toast promise for good UX
+            const promise = () =>
+                new Promise<string>(async (resolve, reject) => {
+                    try {
+                        // Find the full path of the file
+                        // const filePath = findFilePath(file, templateData!);
+                        const filePath = file.fullPath;
+                        if (!filePath) {
+                            throw new Error("Could not find file path.");
+                        }
+
+                        // Fetch the content from GitHub
+                        const content = await fetchFileContent(
+                            repoOwner!,
+                            repoName,
+                            filePath,
+                            accessToken!
+                        );
+                        console.log(file);
+
+                        // 7. Update the store with the fetched content
+                        setFetchedFileContent(file.fullPath!, content);
+                        resolve(content);
+                    } catch (err) {
+                        console.error("Failed to fetch file:", err);
+                        reject(err);
+                    }
+                });
+
+            toast.promise(promise, {
+                loading: `Fetching ${file.filename}.${file.fileExtension}...`,
+                success: `Loaded ${file.filename}.${file.fileExtension}`,
+                error: "Failed to load file from GitHub.",
+            });
+        }
     };
 
     const handleSave = useCallback(
@@ -466,6 +517,7 @@ const Playground = () => {
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
+                                <UserButton />
                             </div>
                         </div>
                     </header>

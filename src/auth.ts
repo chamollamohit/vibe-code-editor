@@ -83,6 +83,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         },
 
         async jwt({ token, user, account }) {
+            if (account && user) {
+                // Persist the access_token from the provider to the JWT
+                token.accessToken = account.access_token;
+                // You can also add other initial data here if needed
+                // token.role = user.role; // (if the user object from provider has it)
+            }
+
             if (!token.sub) return token;
             const existingUser = await getUserById(token.sub);
 
@@ -101,6 +108,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             // Attach the user ID from the token to the session
             if (token.sub && session.user) {
                 session.user.id = token.sub;
+                session.accessToken = token.accessToken as string;
             }
 
             if (token.sub && session.user) {

@@ -31,8 +31,8 @@ const PlaygroundEditor = ({
         configureMonaco(monaco);
         updateEditorLanguage();
     };
-    const { theme } = useTheme();
-    const editorTheme = theme === "dark" ? "modern-dark" : "vs";
+    const { resolvedTheme } = useTheme();
+    const editorTheme = resolvedTheme === "dark" ? "modern-dark" : "vs";
 
     const updateEditorLanguage = () => {
         if (!activeFile || !monacoRef.current || !editorRef.current) return;

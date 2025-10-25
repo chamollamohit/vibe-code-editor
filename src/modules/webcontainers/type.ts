@@ -30,6 +30,8 @@ export interface TemplateItem {
     content: string;
     folderName?: string;
     items?: TemplateItem[];
+    type?: string;
+    fullPath?: string;
 }
 
 export interface WebContainerFile {
