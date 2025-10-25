@@ -1,6 +1,5 @@
 "use server";
 
-import Playground from "@/app/playground/[id]/page";
 import { db } from "@/lib/db";
 import { TemplateFolder, TemplateFile } from "../type";
 import { currentUser } from "@/modules/auth/actions";

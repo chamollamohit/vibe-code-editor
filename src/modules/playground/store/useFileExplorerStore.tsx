@@ -25,6 +25,7 @@ interface FileExplorerState {
     setEditorContent: (content: string) => void;
     setOpenFiles: (files: OpenFile[]) => void;
     setActiveFileId: (fileId: string | null) => void;
+    setFetchedFileContent: (fullPath: string, content: string) => void;
 
     //   Functions
     openFile: (file: TemplateFile) => void;
@@ -522,7 +523,7 @@ export const useFileExplorerStore = create<FileExplorerState>((set, get) => ({
                     }
 
                     // Recursive step: Search inside folders
-                    if (item.type === "folder") {
+                    if (item.type === "folder" && item.items) {
                         return {
                             ...item,
                             items: findAndUpdate(item.items),
@@ -535,9 +536,11 @@ export const useFileExplorerStore = create<FileExplorerState>((set, get) => ({
             };
 
             // Create the new, updated templateData object
+
             const newTemplateData = {
                 ...state.templateData!,
-                items: findAndUpdate(state.templateData!.items),
+                // @ts-expect-error "Igonre this"
+                items: findAndUpdate(state.templateData.items),
             };
 
             // --- 2. Update the openFiles array ---

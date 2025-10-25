@@ -60,6 +60,7 @@ enum Templates {
   VUE
   HONO
   ANGULAR
+  GITHUB
 }
 
 enum PlaygroundSource {

@@ -207,12 +207,12 @@ const Playground = () => {
                             repoOwner!,
                             repoName,
                             filePath,
-                            accessToken
+                            accessToken!
                         );
                         console.log(file);
 
                         // 7. Update the store with the fetched content
-                        setFetchedFileContent(file.fullPath, content);
+                        setFetchedFileContent(file.fullPath!, content);
                         resolve(content);
                     } catch (err) {
                         console.error("Failed to fetch file:", err);

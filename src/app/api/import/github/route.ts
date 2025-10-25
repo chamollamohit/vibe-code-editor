@@ -2,6 +2,7 @@ import { auth } from "@/auth"; // Your Auth.js config
 import { db } from "@/lib/db"; // Your Prisma client
 import { fetchRepoTree } from "@/modules/github/actions/index";
 import { buildRepoTree } from "@/modules/github/actions/index";
+import { Prisma } from "@prisma/client";
 
 import { NextResponse } from "next/server";
 
@@ -37,12 +38,12 @@ export async function POST(req: Request) {
                 title: repoName,
                 description: description || "Imported from GitHub",
                 userId: session.user.id,
-                template: "REACT",
+                template: "GITHUB",
                 source: "GITHUB",
                 repoOwner: repoOwner,
                 templateFiles: {
                     create: {
-                        content: treeJson as any,
+                        content: treeJson as unknown as Prisma.JsonObject,
                     },
                 },
             },
