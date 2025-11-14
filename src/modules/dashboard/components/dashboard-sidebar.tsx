@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     Code2,
     Compass,
@@ -20,7 +20,7 @@ import {
     Database,
     FlameIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
 import {
     Sidebar,
     SidebarContent,
@@ -45,7 +45,6 @@ interface PlaygroundData {
     starred: boolean;
 }
 
-// Map icon names (strings) to their corresponding LucideIcon components
 const lucideIconMap: Record<string, LucideIcon> = {
     Zap: Zap,
     Lightbulb: Lightbulb,
@@ -53,8 +52,7 @@ const lucideIconMap: Record<string, LucideIcon> = {
     Compass: Compass,
     FlameIcon: FlameIcon,
     Terminal: Terminal,
-    Code2: Code2, // Include the default icon
-    // Add any other icons you might use dynamically
+    Code2: Code2,
 };
 
 export function DashboardSidebar({
@@ -206,13 +204,10 @@ export function DashboardSidebar({
                                       );
                                   })}
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild tooltip="View all">
-                                    <Link href="">
-                                        <span className="text-sm text-muted-foreground">
-                                            View all playgrounds
-                                        </span>
-                                    </Link>
-                                </SidebarMenuButton>
+                                <SidebarMenuButton
+                                    asChild
+                                    tooltip="View all"
+                                ></SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>

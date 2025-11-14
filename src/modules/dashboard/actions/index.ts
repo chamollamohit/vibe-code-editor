@@ -4,8 +4,9 @@ import { db } from "@/lib/db";
 import { currentUser } from "@/modules/auth/actions";
 import { createPlaygroundProp } from "../types";
 import { revalidatePath } from "next/cache";
-
+import { unstable_noStore as noStore } from "next/cache";
 export const getAllPlaygroundForUser = async () => {
+    noStore();
     const user = await currentUser();
 
     try {
@@ -26,6 +27,7 @@ export const getAllPlaygroundForUser = async () => {
             },
         });
         return playgrounds;
+        // revalidatePath("/dashboard");
     } catch (error) {
         console.log("Unable to get all Playground");
     }
@@ -94,7 +96,6 @@ export const dupicatePlaygroundById = async (id: string) => {
         const originalPlayground = await db.playground.findUnique({
             where: {
                 id,
-                //Todo: add template files
             },
         });
         if (!originalPlayground) {

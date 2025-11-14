@@ -29,7 +29,7 @@ async function generateAIResponse(messages: ChatMessage[]): Promise<string> {
 Always provide clear, practical answers. Use proper code formatting when showing examples.`;
 
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-flash-lite",
         systemInstruction: systemPrompt,
     });
 

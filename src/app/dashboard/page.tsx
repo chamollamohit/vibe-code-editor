@@ -9,6 +9,7 @@ import AddRepo from "@/modules/dashboard/components/add-repo";
 import EmptyState from "@/modules/dashboard/components/empty-state";
 import ProjectTable from "@/modules/dashboard/components/project-table";
 import React from "react";
+export const dynamic = "force-dynamic";
 
 const Page = async () => {
     const playgrounds = await getAllPlaygroundForUser();

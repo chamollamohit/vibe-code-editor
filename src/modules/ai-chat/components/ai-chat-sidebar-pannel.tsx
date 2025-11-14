@@ -5,7 +5,8 @@ import { useState, useEffect, useRef, ComponentPropsWithoutRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
     Loader2,
     Send,
@@ -22,12 +23,11 @@ import {
     Search,
     Filter,
     Download,
+    Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
+import type { Element as HastElement } from "hast";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -111,6 +111,65 @@ const MessageTypeIndicator: React.FC<{
             <div className="flex items-center gap-2 text-xs text-zinc-500">
                 {model && <span>{model}</span>}
                 {tokens && <span>{tokens} tokens</span>}
+            </div>
+        </div>
+    );
+};
+
+const CodeBlock = ({
+    language,
+    value,
+}: {
+    language: string;
+    value: string;
+}) => {
+    const [isCopied, setIsCopied] = useState(false);
+
+    const handleCopy = async () => {
+        if (!value) return;
+        await navigator.clipboard.writeText(value);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
+
+    return (
+        <div className="w-full my-4 overflow-hidden rounded-lg border border-gray-200 bg-[#282a36]">
+            <div className="flex items-center justify-between px-3 py-1.5 bg-white/10 border-b border-white/10">
+                <span className="text-xs font-medium text-gray-300 lowercase">
+                    {language}
+                </span>
+                <button
+                    onClick={handleCopy}
+                    className="flex items-center gap-1 text-xs text-gray-400 hover:text-white transition-colors"
+                    title="Copy code"
+                >
+                    {isCopied ? (
+                        <>
+                            <Check className="w-3.5 h-3.5 text-green-400" />
+                            <span className="text-green-400">Copied!</span>
+                        </>
+                    ) : (
+                        <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>Copy</span>
+                        </>
+                    )}
+                </button>
+            </div>
+            <div className="overflow-x-auto">
+                <SyntaxHighlighter
+                    style={dracula}
+                    language={language}
+                    PreTag="div"
+                    customStyle={{
+                        margin: 0,
+                        padding: "1rem",
+                        background: "transparent",
+                        fontSize: "0.85rem",
+                    }}
+                >
+                    {value}
+                </SyntaxHighlighter>
             </div>
         </div>
     );
@@ -571,47 +630,47 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                     tokens={msg.tokens}
                                                 />
                                             )}
-
-                                            <div className="prose prose-sm dark:prose-invert max-w-none">
+                                            <div className="prose prose-sm max-w-none w-full wrap-break-word dark:prose-invert">
                                                 <ReactMarkdown
-                                                    remarkPlugins={[
-                                                        remarkGfm,
-                                                        remarkMath,
-                                                    ]}
-                                                    rehypePlugins={[
-                                                        rehypeKatex,
-                                                    ]}
                                                     components={{
-                                                        code: ({
-                                                            children,
-                                                            className,
+                                                        code({
+                                                            node,
                                                             inline,
+                                                            className,
+                                                            children,
+                                                            ...props
                                                         }: ComponentPropsWithoutRef<"code"> & {
                                                             inline?: boolean;
-                                                        }) => {
-                                                            if (inline) {
-                                                                return (
-                                                                    <code className="bg-zinc-400 dark:bg-zinc-800 px-1 py-0.5 rounded text-sm">
-                                                                        {
-                                                                            children
-                                                                        }
-                                                                    </code>
+                                                            node?: HastElement;
+                                                        }) {
+                                                            const match =
+                                                                /language-(\w+)/.exec(
+                                                                    className ||
+                                                                        ""
                                                                 );
-                                                            }
-                                                            return (
-                                                                <div className="bg-zinc-400 dark:bg-zinc-800 rounded-lg p-4 my-4">
-                                                                    <pre className="text-sm text-zinc-900 dark:text-zinc-100 overflow-x-auto">
-                                                                        <code
-                                                                            className={
-                                                                                className
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                children
-                                                                            }
-                                                                        </code>
-                                                                    </pre>
-                                                                </div>
+                                                            return !inline &&
+                                                                match ? (
+                                                                <CodeBlock
+                                                                    language={
+                                                                        match[1]
+                                                                    }
+                                                                    value={String(
+                                                                        children
+                                                                    ).replace(
+                                                                        /\n$/,
+                                                                        ""
+                                                                    )}
+                                                                />
+                                                            ) : (
+                                                                <code
+                                                                    className={cn(
+                                                                        "bg-black/10 text-red-600 rounded px-1 py-0.5 text-sm font-mono",
+                                                                        className
+                                                                    )}
+                                                                    {...props}
+                                                                >
+                                                                    {children}
+                                                                </code>
                                                             );
                                                         },
                                                     }}
@@ -619,7 +678,6 @@ export const AIChatSidePanel: React.FC<AIChatSidePanelProps> = ({
                                                     {msg.content}
                                                 </ReactMarkdown>
                                             </div>
-
                                             {/* Message actions */}
                                             <div className="flex items-center justify-between mt-3 pt-2 border-t border-zinc-200 dark:border-zinc-700/30">
                                                 <div className="text-xs text-zinc-500">

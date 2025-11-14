@@ -54,13 +54,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import MarkedToggleButton from "./marked-toggle";
+import { useRouter } from "next/navigation";
 
 export default function ProjectTable({
     projects,
     onUpdateProject,
     onDeleteProject,
     onDuplicateProject,
-    onMarkasFavorite,
 }: ProjectTableProps) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -72,7 +72,7 @@ export default function ProjectTable({
         description: "",
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [favoutrie, setFavourite] = useState(false);
+    const router = useRouter();
 
     const handleEditClick = (project: Project) => {
         console.log(project);
@@ -108,10 +108,6 @@ export default function ProjectTable({
         }
     };
 
-    const handleMarkasFavorite = async (project: Project) => {
-        //    Write your logic here
-    };
-
     const handleDeleteProject = async () => {
         if (!selectedProject || !onDeleteProject) return;
 
@@ -122,6 +118,7 @@ export default function ProjectTable({
             setDeleteDialogOpen(false);
             setSelectedProject(null);
             toast.success("Project deleted successfully");
+            router.refresh();
         } catch (error) {
             toast.error("Error deleting project");
             console.log("Error deleting project", error);

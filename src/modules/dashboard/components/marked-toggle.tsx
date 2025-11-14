@@ -8,13 +8,14 @@ import { toast } from "sonner";
 import { toggleStarMarked } from "../actions";
 import React from "react";
 import { MarkedToggleButtonProps } from "../types";
+import { useRouter } from "next/navigation";
 
 const MarkedToggleButton = forwardRef<
     HTMLButtonElement,
     MarkedToggleButtonProps
 >(({ markedForRevision, id, onClick, className, children, ...props }, ref) => {
     const [isMarked, setIsMarked] = useState(markedForRevision);
-
+    const router = useRouter();
     useEffect(() => {
         setIsMarked(markedForRevision);
     }, [markedForRevision]);
@@ -22,7 +23,6 @@ const MarkedToggleButton = forwardRef<
     const handleToggle = async (event: React.MouseEvent<HTMLButtonElement>) => {
         // Call the original onClick if provided by the parent (DropdownMenuItem)
         onClick?.(event);
-        console.log(markedForRevision);
 
         const newMarkedState = !isMarked;
 
@@ -38,6 +38,7 @@ const MarkedToggleButton = forwardRef<
             } else {
                 toast.success("Removed from Favorites successfully");
             }
+            router.refresh();
         } catch (error) {
             console.error("Failed to toggle mark for revision:", error);
             setIsMarked(!newMarkedState); // Revert state if the update fails
