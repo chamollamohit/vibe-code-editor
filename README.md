@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vibe Code Editor
 
-## Getting Started
+**Vibe Code Editor** is a powerful, browser-based development environment built with Next.js. It leverages **WebContainers** to run Node.js directly in the browser, integrates **Google Gemini** for AI-powered coding assistance, and uses the **Monaco Editor** for a professional coding experience.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   **Browser-Native Node.js**: Uses [WebContainers](https://webcontainers.io/) to execute code, run servers, and manage file systems entirely within the browser.
+-   **AI Coding Assistant**: Integrated chat interface powered by **Google Gemini** to help debug, explain, and write code.
+-   **Professional Editor**: Fully featured code editor using **Monaco Editor** (VS Code's core), supporting syntax highlighting, themes, and IntelliSense.
+-   **Multi-Template Support**: Create playgrounds for **React, Next.js, Express, Vue, Hono, and Angular**.
+-   **Cloud Sync**: Save your projects, templates, and file structures to a MongoDB database via Prisma.
+-   **Secure Authentication**: User management and social login support (Google/GitHub) using **NextAuth.js v5**.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   **Framework**: Next.js
+-   **Language**: TypeScript
+-   **Database**: MongoDB (via Prisma ORM)
+-   **Styling**: Tailwind CSS & Shadcn UI
+-   **Editor**: Monaco Editor React
+-   **Runtime**: WebContainers API
+-   **AI**: Google Generative AI SDK
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+-   Node.js
+-   MongoDB Database URL
+-   Google AI API Key (Gemini)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1.  **Clone the repository:**
 
-## Deploy on Vercel
+    ```bash
+    git clone https://github.com/chamollamohit/vibe-code-editor.git
+    cd vibe-code-editor
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    ```bash
+    npm install
+    ```
+
+3.  **Set up Environment Variables:**
+    Create a `.env` file in the root directory and add the following:
+
+    ```env
+    # Database
+    DATABASE_URL=""
+
+    # Authentication (NextAuth)
+    AUTH_SECRET=""
+
+    # OAuth Providers
+    AUTH_GITHUB_ID= ""
+    AUTH_GITHUB_SECRET= ""
+    AUTH_GOOGLE_ID= ""
+    AUTH_GOOGLE_SECRET= ""
+
+    # AI Service
+    GOOGLE_API_KEY= ""
+
+    ```
+
+4.  **Run Database Migration:**
+
+    ```bash
+    npx prisma db push
+    ```
+
+5.  **Start the Development Server:**
+
+    ```bash
+    npm run dev
+    ```
+
+    Open [http://localhost:3000](http://localhost:3000) to view the editor.
