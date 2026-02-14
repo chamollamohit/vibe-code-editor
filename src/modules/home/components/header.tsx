@@ -24,15 +24,13 @@ export function Header() {
                             px-4 py-2.5
                             relative
                             transition-all duration-300 ease-in-out
-                        `}
-                        >
+                        `}>
                             <div className="relative z-10 flex items-center justify-between w-full gap-2">
                                 {/* Logo Section with Navigation Links */}
                                 <div className="flex items-center gap-6 justify-center">
                                     <Link
                                         href="/"
-                                        className="flex items-center gap-2 justify-center"
-                                    >
+                                        className="flex items-center gap-2 justify-center">
                                         <Image
                                             src={"/logo.svg"}
                                             alt="Logo"
@@ -51,23 +49,15 @@ export function Header() {
                                     <div className="hidden sm:flex items-center gap-4">
                                         <Link
                                             href="/dashboard"
-                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                                        >
+                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors">
                                             Dashboard
                                         </Link>
                                         <Link
                                             href=""
-                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                                        >
+                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors flex items-center gap-2">
                                             Pricing
-                                        </Link>
-                                        <Link
-                                            href=""
-                                            className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors flex items-center gap-2"
-                                        >
-                                            API
                                             <span className="text-green-500 dark:text-green-400 border border-green-500 dark:border-green-400 rounded-lg px-1 py-0.5 text-xs">
-                                                New
+                                                Coming Soon
                                             </span>
                                         </Link>
                                     </div>
@@ -86,14 +76,12 @@ export function Header() {
                                 <div className="flex sm:hidden items-center gap-4">
                                     <Link
                                         href="/docs/components/action-search-bar"
-                                        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                                    >
+                                        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors">
                                         Docs
                                     </Link>
                                     <Link
                                         href="/pricing"
-                                        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
-                                    >
+                                        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors">
                                         API
                                     </Link>
                                     <ThemeToggle />

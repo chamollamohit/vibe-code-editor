@@ -21,8 +21,7 @@ export function Footer() {
                             key={index}
                             href={link.href || "#"}
                             target="_blank"
-                            rel="noopener noreferrer"
-                        >
+                            rel="noopener noreferrer">
                             {link.icon}
                         </Link>
                     ))}
@@ -30,7 +29,7 @@ export function Footer() {
 
                 {/* Copyright Notice */}
                 <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                    &copy; {new Date().getFullYear()} Codesnippet. All rights
+                    &copy; {new Date().getFullYear()} Mohit Chamolla. All rights
                     reserved.
                 </p>
             </div>
